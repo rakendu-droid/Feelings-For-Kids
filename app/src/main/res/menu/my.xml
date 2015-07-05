@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity" >
+    <!--<item android:id="@+id/action_settings"-->
+        <!--android:title="@string/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:showAsAction="never" />-->
+    <item
+        android:id = "@+id/addButton"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Add"
+        android:showAsAction="always"
+        android:onClick="AddNew"/>
+    <item
+        android:id="@+id/save"
+        android:title="save"
+        android:showAsAction="always"
+        android:visible="true"
+        android:icon="@android:drawable/ic_menu_save"
+        android:onClick="save"/>
+    <item
+        android:id="@+id/feelingslist"
+        android:title="Saved feelings"
+        android:visible="true"
+        android:showAsAction="ifRoom"
+        android:onClick="list"/>
+</menu>
