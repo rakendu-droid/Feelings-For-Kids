@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
     final int REQUEST_IMAGE_CAPTURE = 1;
     final int REQUEST_CHOOSE_IMAGE = 2;
     final int REQUEST_FETCH_FEELINGS = 3;
+
+    RelativeLayout.LayoutParams layoutParams;
 
     VerticalSeekBar verticalSeekBar=null;
     VerticalSeekBar_Reverse verticalSeekBar_Reverse=null;
@@ -90,11 +93,75 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
         worry_1 = (ImageView)findViewById(R.id.worry_1);
         worry_2 = (ImageView)findViewById(R.id.worry_2);
         worry_3 = (ImageView)findViewById(R.id.worry_3);
+        happy_1.setTag("ImageTag");
+        happy_1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
 
-        happy_1.setOnLongClickListener(this);
+                ClipData.Item item = new ClipData.Item((CharSequence) v.getTag());
+                String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
+
+                ClipData dragData = new ClipData(v.getTag().toString(), mimeTypes, item);
+                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(happy_1);
+                //Toast.makeText(getApplicationContext(), "Long touch", Toast.LENGTH_LONG).show();
+                v.startDrag(dragData, myShadow, null, 0);
+                return false;
+            }
+        });
         happy_1.setOnTouchListener(this);
-        happy_1.setOnDragListener((View.OnDragListener) this);
 
+        happy_1.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+
+
+                int action = event.getAction();
+                switch (event.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED:
+
+                        layoutParams = (RelativeLayout.LayoutParams) v
+                                .getLayoutParams();
+                        Toast.makeText(getApplicationContext(),"Started",Toast.LENGTH_LONG).show();
+                        // do nothing
+
+                        break;
+                    case DragEvent.ACTION_DRAG_ENTERED:
+
+                        int x1 = (int) event.getX();
+                        int y1 = (int) event.getY();
+                        Log.d("TAG1","The position at entry X "+x1+" Y "+y1);
+                        //v.setBackgroundDrawable(enterShape);
+                        break;
+                    case DragEvent.ACTION_DRAG_EXITED:
+
+                        int x = (int) event.getX();
+                        int y = (int) event.getY();
+                        layoutParams.leftMargin = x;
+                        layoutParams.topMargin = y;
+                        v.setLayoutParams(layoutParams);
+                        Log.d("TAG1","The position at exit X "+x+" Y "+y);
+                        //v.setBackgroundDrawable(normalShape);
+                        break;
+                    case DragEvent.ACTION_DROP:
+                        // Dropped, reassign View to ViewGroup
+                        Toast.makeText(getApplicationContext(),"Drop",Toast.LENGTH_LONG).show();
+//                        View view = (View) event.getLocalState();
+//                        ViewGroup owner = (ViewGroup) view.getParent();
+//                        owner.removeView(view);
+//                        LinearLayout container = (LinearLayout) v;
+//                        container.addView(view);
+//                        view.setVisibility(View.VISIBLE);
+                        break;
+                    case DragEvent.ACTION_DRAG_ENDED:
+
+                        //v.setBackgroundDrawable(getResources().getDrawable(R.drawable.happy_1));
+                    default:
+                        break;
+                }
+                return true;
+
+            }
+        });
         happy_2.setOnLongClickListener(this);
         happy_2.setOnTouchListener(this);
         happy_2.setOnDragListener((View.OnDragListener) this);
@@ -439,13 +506,13 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
 
     @Override
     public boolean onLongClick(View v) {
-
+        v.setTag("ImageTag");
         ClipData.Item item = new ClipData.Item((CharSequence)v.getTag());
         String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
 
         ClipData dragData = new ClipData(v.getTag().toString(),mimeTypes, item);
         View.DragShadowBuilder myShadow = new View.DragShadowBuilder();
-
+        Toast.makeText(getApplicationContext(),"Long touch",Toast.LENGTH_LONG).show();
         v.startDrag(dragData,myShadow,null,0);
         return false;
     }
@@ -453,13 +520,15 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
     @Override
     public boolean onTouch(View view, MotionEvent event) {
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            ClipData data = ClipData.newPlainText("", "");
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-            view.startDrag(data, shadowBuilder, view, 0);
-            //view.setVisibility(View.INVISIBLE);
-            return true;
-        } else
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//
+//
+//            ClipData data = ClipData.newPlainText("", "");
+//            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+//            view.startDrag(data, shadowBuilder, view, 0);
+//            view.setVisibility(View.INVISIBLE);
+//            return true;
+//        } else
         return false;
     }
 
@@ -492,7 +561,7 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
 
-                v.setBackgroundDrawable(getResources().getDrawable(R.drawable.happy_1));
+                //v.setBackgroundDrawable(getResources().getDrawable(R.drawable.happy_1));
             default:
                 break;
         }
