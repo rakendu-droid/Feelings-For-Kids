@@ -40,7 +40,7 @@ import widget.VerticalSeekBar;
 import widget.VerticalSeekBar_Reverse;
 
 
-public class MyActivity extends Activity implements View.OnClickListener, View.OnLongClickListener,View.OnTouchListener,View.OnDragListener {
+public class MyActivity extends Activity implements View.OnClickListener, View.OnLongClickListener,View.OnTouchListener {
 
 
     final int REQUEST_IMAGE_CAPTURE = 1;
@@ -134,17 +134,18 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
                         break;
                     case DragEvent.ACTION_DRAG_EXITED:
 
+
+                        //v.setBackgroundDrawable(normalShape);
+                        break;
+                    case DragEvent.ACTION_DROP:
+                        // Dropped, reassign View to ViewGroup
+                        Toast.makeText(getApplicationContext(),"Drop",Toast.LENGTH_LONG).show();
                         int x = (int) event.getX();
                         int y = (int) event.getY();
                         layoutParams.leftMargin = x;
                         layoutParams.topMargin = y;
                         v.setLayoutParams(layoutParams);
                         Log.d("TAG1","The position at exit X "+x+" Y "+y);
-                        //v.setBackgroundDrawable(normalShape);
-                        break;
-                    case DragEvent.ACTION_DROP:
-                        // Dropped, reassign View to ViewGroup
-                        Toast.makeText(getApplicationContext(),"Drop",Toast.LENGTH_LONG).show();
 //                        View view = (View) event.getLocalState();
 //                        ViewGroup owner = (ViewGroup) view.getParent();
 //                        owner.removeView(view);
@@ -164,7 +165,7 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
         });
         happy_2.setOnLongClickListener(this);
         happy_2.setOnTouchListener(this);
-        happy_2.setOnDragListener((View.OnDragListener) this);
+        //happy_2.setOnDragListener((View.OnDragListener) this);
 
 
         happy_3.setOnLongClickListener(this);
@@ -532,7 +533,7 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
         return false;
     }
 
-    @Override
+    //Override
     public boolean onDrag(View v, DragEvent event) {
         int action = event.getAction();
         switch (event.getAction()) {

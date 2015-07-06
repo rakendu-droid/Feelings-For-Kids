@@ -1,12 +1,12 @@
 package emotions.kids.com.psychology;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import emotions.kids.com.psychology.util.SystemUiHider;
 
@@ -17,11 +17,18 @@ import emotions.kids.com.psychology.util.SystemUiHider;
  *
  * @see SystemUiHider
  */
-public class SplashscreenActivity extends Activity {
+public class SplashscreenActivity extends Activity implements Animation.AnimationListener {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
+     *
      */
+    ImageView balloon1,balloon2,balloon3;
+    TextView text1,text2,text3,title;
+
+
+    Animation fade,move;
+    int count=0;
     private static final boolean AUTO_HIDE = true;
 
     /**
@@ -52,77 +59,148 @@ public class SplashscreenActivity extends Activity {
 
         setContentView(R.layout.activity_splash);
 
-        final View controlsView = findViewById(R.id.fullscreen_content_controls);
-        final View contentView = findViewById(R.id.fullscreen_content);
+        balloon1 =(ImageView)findViewById(R.id.b1);
+        balloon2 =(ImageView)findViewById(R.id.b2);
+        balloon3 =(ImageView)findViewById(R.id.b3);
 
-        // Set up an instance of SystemUiHider to control the system UI for
-        // this activity.
-        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
-        mSystemUiHider.setup();
-        mSystemUiHider
-                .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
-                    // Cached values.
-                    int mControlsHeight;
-                    int mShortAnimTime;
+        text1 =(TextView)findViewById(R.id.t1);
+        text2 =(TextView)findViewById(R.id.t2);
+        text3 =(TextView)findViewById(R.id.t3);
+        title =(TextView)findViewById(R.id.title);
 
-                    @Override
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-                    public void onVisibilityChange(boolean visible) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-                            // If the ViewPropertyAnimator API is available
-                            // (Honeycomb MR2 and later), use it to animate the
-                            // in-layout UI controls at the bottom of the
-                            // screen.
-                            if (mControlsHeight == 0) {
-                                mControlsHeight = controlsView.getHeight();
-                            }
-                            if (mShortAnimTime == 0) {
-                                mShortAnimTime = getResources().getInteger(
-                                        android.R.integer.config_shortAnimTime);
-                            }
-                            controlsView.animate()
-                                    .translationY(visible ? 0 : mControlsHeight)
-                                    .setDuration(mShortAnimTime);
-                        } else {
-                            // If the ViewPropertyAnimator APIs aren't
-                            // available, simply show or hide the in-layout UI
-                            // controls.
-                            controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
-                        }
+        fade = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.text);
+        fade.setAnimationListener(this);
 
-                        if (visible && AUTO_HIDE) {
-                            // Schedule a hide().
-                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
-                        }
-                    }
-                });
+        move = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.baloon);
+        move.setAnimationListener(this);
 
-        // Set up the user interaction to manually show or hide the system UI.
-        contentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (TOGGLE_ON_CLICK) {
-                    mSystemUiHider.toggle();
-                } else {
-                    mSystemUiHider.show();
-                }
-            }
-        });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+
+//        final View controlsView = findViewById(R.id.fullscreen_content_controls);
+//        final View contentView = findViewById(R.id.fullscreen_content);
+//
+//        // Set up an instance of SystemUiHider to control the system UI for
+//        // this activity.
+//        mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
+//        mSystemUiHider.setup();
+//        mSystemUiHider
+//                .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
+//                    // Cached values.
+//                    int mControlsHeight;
+//                    int mShortAnimTime;
+//
+//                    @Override
+//                    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+//                    public void onVisibilityChange(boolean visible) {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+//                            // If the ViewPropertyAnimator API is available
+//                            // (Honeycomb MR2 and later), use it to animate the
+//                            // in-layout UI controls at the bottom of the
+//                            // screen.
+//                            if (mControlsHeight == 0) {
+//                                mControlsHeight = controlsView.getHeight();
+//                            }
+//                            if (mShortAnimTime == 0) {
+//                                mShortAnimTime = getResources().getInteger(
+//                                        android.R.integer.config_shortAnimTime);
+//                            }
+//                            controlsView.animate()
+//                                    .translationY(visible ? 0 : mControlsHeight)
+//                                    .setDuration(mShortAnimTime);
+//                        } else {
+//                            // If the ViewPropertyAnimator APIs aren't
+//                            // available, simply show or hide the in-layout UI
+//                            // controls.
+//                            controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
+//                        }
+//
+//                        if (visible && AUTO_HIDE) {
+//                            // Schedule a hide().
+//                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
+//                        }
+//                    }
+//                });
+//
+//        // Set up the user interaction to manually show or hide the system UI.
+//        contentView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (TOGGLE_ON_CLICK) {
+//                    mSystemUiHider.toggle();
+//                } else {
+//                    mSystemUiHider.show();
+//                }
+//            }
+//        });
+//
+//        // Upon interacting with UI controls, delay any scheduled hide()
+//        // operations to prevent the jarring behavior of controls going away
+//        // while interacting with the UI.
+//        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+
+        balloon1.startAnimation(move);
+
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+        //delayedHide(100);
+
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if(animation == move) {
+
+
+            switch (count) {
+                case 0:
+                    balloon2.startAnimation(move);
+                    text1.startAnimation(fade);
+                    count = 1;
+                    break;
+                case 1:
+                    balloon3.startAnimation(move);
+                    text2.startAnimation(fade);
+                    count = 2;
+                    break;
+                case 2:
+                    text3.startAnimation(fade);
+                    count = 3;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if(animation == fade){
+            if(count ==3)
+            {
+                text1.setVisibility(View.GONE);
+                text1.setVisibility(View.GONE);
+                text1.setVisibility(View.GONE);
+                title.startAnimation(fade);
+
+
+            }
+        }
+
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 
 
@@ -131,30 +209,30 @@ public class SplashscreenActivity extends Activity {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
-
-    Handler mHideHandler = new Handler();
-    Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mSystemUiHider.hide();
-        }
-    };
-
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
-    }
+//    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+//        @Override
+//        public boolean onTouch(View view, MotionEvent motionEvent) {
+//            if (AUTO_HIDE) {
+//                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+//            }
+//            return false;
+//        }
+//    };
+//
+//    Handler mHideHandler = new Handler();
+//    Runnable mHideRunnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            mSystemUiHider.hide();
+//        }
+//    };
+//
+//    /**
+//     * Schedules a call to hide() in [delay] milliseconds, canceling any
+//     * previously scheduled calls.
+//     */
+//    private void delayedHide(int delayMillis) {
+//        mHideHandler.removeCallbacks(mHideRunnable);
+//        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+//    }
 }
