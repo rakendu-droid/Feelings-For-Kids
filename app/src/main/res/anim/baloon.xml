@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true"
+    android:interpolator="@android:anim/linear_interpolator">
 
     <translate
         android:fromYDelta="0%p"
-        android:toYDelta="-75%p"
-        android:duration="500"
+        android:toYDelta="-175%p"
+        android:duration="3500"
+        android:startOffset="1000"
+        android:fillAfter="true"
         />
     <alpha
         android:duration="1000"
         android:fromAlpha="1.0"
         android:interpolator="@android:anim/accelerate_interpolator"
         android:toAlpha="0.0"
-        android:startOffset="11000"/>
+        android:startOffset="1000"
+        android:fillAfter="true"/>
 
 </set>

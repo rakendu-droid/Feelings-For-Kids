@@ -27,7 +27,7 @@ public class SplashscreenActivity extends Activity implements Animation.Animatio
     TextView text1,text2,text3,title;
 
 
-    Animation fade,move;
+    Animation fade,move,fadeOut;
     int count=0;
     private static final boolean AUTO_HIDE = true;
 
@@ -66,13 +66,16 @@ public class SplashscreenActivity extends Activity implements Animation.Animatio
         text1 =(TextView)findViewById(R.id.t1);
         text2 =(TextView)findViewById(R.id.t2);
         text3 =(TextView)findViewById(R.id.t3);
-        title =(TextView)findViewById(R.id.title);
+        title =(TextView)findViewById(R.id.splash_title);
 
         fade = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.text);
         fade.setAnimationListener(this);
 
         move = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.baloon);
         move.setAnimationListener(this);
+
+        fadeOut = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadeout);
+        fadeOut.setAnimationListener(this);
 
 
 
@@ -146,6 +149,8 @@ public class SplashscreenActivity extends Activity implements Animation.Animatio
 
 
         balloon1.startAnimation(move);
+        balloon2.startAnimation(move);
+        balloon3.startAnimation(move);
 
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
@@ -164,34 +169,44 @@ public class SplashscreenActivity extends Activity implements Animation.Animatio
         if(animation == move) {
 
 
-            switch (count) {
-                case 0:
-                    balloon2.startAnimation(move);
+//            switch (count) {
+//                case 0:
+                    //balloon1.setVisibility(View.GONE);
+                    //balloon2.startAnimation(move);
+                    text1.setVisibility(View.VISIBLE);
                     text1.startAnimation(fade);
                     count = 1;
-                    break;
-                case 1:
-                    balloon3.startAnimation(move);
+//                    break;
+//                case 1:
+                    //balloon2.setVisibility(View.GONE);
+                    text2.setVisibility(View.VISIBLE);
+                   // balloon3.startAnimation(move);
                     text2.startAnimation(fade);
                     count = 2;
-                    break;
-                case 2:
+//                    break;
+//                case 2:
+                    text3.setVisibility(View.VISIBLE);
                     text3.startAnimation(fade);
                     count = 3;
-                    break;
-                default:
-                    break;
-            }
+//                    break;
+//                default:
+//                    break;
+//            }
         }
         else if(animation == fade){
-            if(count ==3)
+            if(count !=4)
             {
+                count =4;
                 text1.setVisibility(View.GONE);
-                text1.setVisibility(View.GONE);
-                text1.setVisibility(View.GONE);
+                text2.setVisibility(View.GONE);
+                text3.setVisibility(View.GONE);
+
+                text1.startAnimation(fadeOut);
+                text2.startAnimation(fadeOut);
+                text3.startAnimation(fadeOut);
+
                 title.startAnimation(fade);
-
-
+                title.setVisibility(View.VISIBLE);
             }
         }
 
