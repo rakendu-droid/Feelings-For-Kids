@@ -4,17 +4,12 @@
     android:interpolator="@android:anim/linear_interpolator">
 
     <alpha
+        android:startOffset="200"
         android:duration="1000"
         android:fromAlpha="1.0"
         android:interpolator="@android:anim/accelerate_interpolator"
         android:toAlpha="0.0"
         android:fillAfter="true"/>
-    <alpha
-        android:duration="1000"
-        android:fromAlpha="1.0"
-        android:interpolator="@android:anim/accelerate_interpolator"
-        android:toAlpha="0.0"
-        android:startOffset="1000"
-        android:fillAfter="true"/>
+
 
 </set>

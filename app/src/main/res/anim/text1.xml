@@ -6,8 +6,7 @@
         android:interpolator="@android:anim/accelerate_interpolator"
         android:duration="500"
         android:fromAlpha="0.0"
-        android:startOffset="5000"
+        android:startOffset="2000"
         android:toAlpha="1.0"
         android:fillAfter="true"/>
-
 </set>

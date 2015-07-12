@@ -3,9 +3,10 @@
     android:fillAfter="true">
 
     <alpha
+        android:interpolator="@android:anim/accelerate_interpolator"
         android:duration="500"
         android:fromAlpha="0.0"
-        android:startOffset="300"
+        android:startOffset="1000"
         android:toAlpha="1.0"
         android:fillAfter="true"/>
 </set>
