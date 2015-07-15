@@ -6,9 +6,115 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="emotions.kids.com.psychology.ChooseFeeling">
 
+    <EditText
+        android:id="@+id/feelings_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter how you are feeling today"
+        android:layout_margin="20dp"
+        />
+
     <ImageButton
+        android:id="@+id/angry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/angry_1"
-        android:onClick="chooseClick"/>
+        android:background="@drawable/ang_bg"
+        android:onClick="chooseClick"
+        android:layout_below="@id/feelings_title"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/angry"
+        android:text="Angry"
+        android:layout_alignStart="@id/angry"/>
+
+    <ImageButton
+        android:id="@+id/happy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/happy_bg"
+        android:onClick="chooseClick"
+        android:layout_toRightOf="@id/angry"
+        android:layout_alignTop="@id/angry"
+        android:layout_marginLeft="30dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/happy"
+        android:text="Happy"
+        android:layout_alignStart="@id/happy"/>
+
+    <ImageButton
+        android:id="@+id/calm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/calm_bg"
+        android:onClick="chooseClick"
+        android:layout_toRightOf="@id/happy"
+        android:layout_alignTop="@id/happy"
+        android:layout_marginLeft="30dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calm"
+        android:text="Calm"
+        android:layout_alignStart="@id/calm"/>
+
+    <ImageButton
+        android:id="@+id/sad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sad_bg"
+        android:onClick="chooseClick"
+        android:layout_below="@id/angry"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sad"
+        android:text="Sad"
+        android:layout_alignEnd="@id/sad"/>
+
+    <ImageButton
+        android:id="@+id/shy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shy_bg"
+        android:onClick="chooseClick"
+        android:layout_toRightOf="@id/sad"
+        android:layout_alignTop="@id/sad"
+        android:layout_marginLeft="30dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shy"
+        android:text="Shy"
+        android:layout_alignEnd="@id/shy"/>
+
+    <ImageButton
+        android:id="@+id/worry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/worry_bg"
+        android:onClick="chooseClick"
+        android:layout_toRightOf="@id/shy"
+        android:layout_alignTop="@id/shy"
+        android:layout_marginLeft="30dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/worry"
+        android:text="Worry"
+        android:layout_alignEnd="@id/worry"/>
+
+
 </RelativeLayout>

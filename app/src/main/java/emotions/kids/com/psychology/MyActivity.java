@@ -46,6 +46,7 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
     final int REQUEST_IMAGE_CAPTURE = 1;
     final int REQUEST_CHOOSE_IMAGE = 2;
     final int REQUEST_FETCH_FEELINGS = 3;
+    final int REQUEST_CHOOSE_FEELINGS = 4;
 
     RelativeLayout.LayoutParams layoutParams;
 
@@ -230,36 +231,42 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
 
     public void AddNew(MenuItem item){
         //Toast.makeText(this,"Toast add", Toast.LENGTH_LONG).show();
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle("Add New");
-        final LayoutInflater inflater = this.getLayoutInflater();
-        final View view = inflater.inflate(R.layout.adddialog,null);
-        dialogBuilder.setView(view);
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        dialogBuilder.setPositiveButton("Save",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_LONG).show();
-                titleText = (EditText)view.findViewById(R.id.title);
-                Log.d("TAG1","  "+titleText.getText().toString());
-                title = titleText.getText().toString();
-                feelingText.setText(title);
-                saveMenuItem.setVisible(true);
-
-                dialog.cancel();
+        Intent chooseIntent = new Intent(this,ChooseFeeling.class);
+        startActivityForResult(chooseIntent,REQUEST_CHOOSE_FEELINGS);
 
 
 
-            }
-        });
-        dialogBuilder.show();
+
+//        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+//        dialogBuilder.setTitle("Add New");
+//        final LayoutInflater inflater = this.getLayoutInflater();
+//        final View view = inflater.inflate(R.layout.adddialog,null);
+//        dialogBuilder.setView(view);
+//        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        dialogBuilder.setPositiveButton("Save",new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                Toast.makeText(getApplicationContext(),"Added",Toast.LENGTH_LONG).show();
+//                titleText = (EditText)view.findViewById(R.id.title);
+//                Log.d("TAG1","  "+titleText.getText().toString());
+//                title = titleText.getText().toString();
+//                feelingText.setText(title);
+//                saveMenuItem.setVisible(true);
+//
+//                dialog.cancel();
+//
+//
+//
+//            }
+//        });
+//        dialogBuilder.show();
     }
     public void list(MenuItem item) {
 
@@ -361,12 +368,22 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         //ByteArrayOutputStream bos;
-        switch (requestCode)
-        {
+        switch (requestCode) {
+            case REQUEST_CHOOSE_FEELINGS:
+                if (resultCode == RESULT_OK) {
+                    Bundle extras = data.getExtras();
+                    int vId = extras.getInt("feelingType");
+                    titleText = (EditText)findViewById(R.id.title);
+                    //titleText.setText(extras.getString("title"));
+                    setFeelingsType(vId);
+                }
+                break;
+
+
             case REQUEST_IMAGE_CAPTURE :
 
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                Bundle extras1 = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras1.get("data");
                 //imageBitmap.setWidth(50);
                 //imageBitmap.setHeight(50);
                 //imgView.setImageBitmap(Bitmap.createScaledBitmap(imageBitmap,500,240,false));
@@ -374,7 +391,7 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
 //                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
 //                topImageBytes=bos.toByteArray();
                 Uri currImageURI = data.getData();
-                Log.d("TAG1","Image "+extras);
+                Log.d("TAG1","Image "+extras1);
 
                 mapImagePath(imageBitmap);
 
@@ -567,5 +584,29 @@ public class MyActivity extends Activity implements View.OnClickListener, View.O
                 break;
         }
         return true;
+    }
+
+    public void setFeelingsType(int vId){
+
+        switch (vId) {
+            case R.id.angry:
+                thermometer.setBackgroundColor(Color.RED);
+                break;
+            case R.id.happy:
+                thermometer.setBackgroundColor(Color.YELLOW);
+                break;
+            case R.id.sad:
+                thermometer.setBackgroundColor(Color.BLUE);
+                break;
+            case R.id.shy:
+                thermometer.setBackgroundColor(Color.parseColor("#ffa500"));
+                break;
+            case R.id.worry:
+                thermometer.setBackgroundColor(Color.GREEN);
+                break;
+            case R.id.calm:
+                thermometer.setBackgroundColor(Color.parseColor("#a500ff"));
+                break;
+        }
     }
 }
